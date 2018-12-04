@@ -50,9 +50,9 @@ public class FibonacciHeap<T extends Comparable<T>> implements AHeap<T>{
 			for(int i = 0; i < minChildren.length; i++){
 				nodes.add(minChildren[i]);
 			}
-			// Sort this mess
-			consolidate();
 		}
+		// Sort this mess
+		consolidate();
 		// Find next min
 		if(nodes.size() == 0){
 			return null;
@@ -93,6 +93,8 @@ public class FibonacciHeap<T extends Comparable<T>> implements AHeap<T>{
 					tmp = nnaTmp;
 				}
 				nnaTmp = newNodeArrangement.get(tmp.getDegree() - 1);
+				// Delete previous position
+				newNodeArrangement.set(tmp.getDegree() - 2, null);
 			}
 			
 			// Expand if the degree increased

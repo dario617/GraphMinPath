@@ -58,4 +58,20 @@ public class FibonacciHeapTest {
 		resetFH();
 	}
 	
+	@Test
+	public void extractMinTest3(){
+		fh.insert(2);
+		fh.insert(3);
+		fh.insert(1);
+		fh.insert(4);
+		fh.insert(5);
+		fh.insert(6);
+		fh.insert(9);
+		fh.insert(0);
+		fh.insert(-1);
+		int min = fh.extractMin();
+		min = fh.extractMin();
+		assertEquals(0, min);
+		resetFH();
+	}
 }

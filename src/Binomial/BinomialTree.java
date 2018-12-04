@@ -63,8 +63,11 @@ public class BinomialTree<T extends Comparable<T>> {
 	}
 	
 	// TODO!
-	public void cut(int val){
+	public BinomialTree<T> cut(T val){
 		
+		// Look at the root
+		
+		return null;
 	}
 	
 	public T getValue() {
