@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javafx.util.Pair;
 import Binomial.BinomialTree;
 
-public class FibonacciHeap<T extends Comparable<T>> {
+public class FibonacciHeap<T extends Comparable<T>> implements AHeap<T>{
 	private Pair<T, Integer> min; // Value and index
 	private ArrayList<BinomialTree<T>> nodes;
 	private long count;
@@ -14,6 +14,7 @@ public class FibonacciHeap<T extends Comparable<T>> {
 		count = 0L;
 	}
 	
+	@Override
 	public void insert(T value){
 		nodes.add(new BinomialTree<T>(value));
 		// Update min
@@ -25,10 +26,12 @@ public class FibonacciHeap<T extends Comparable<T>> {
 		count++;
 	}
 	
+	@Override
 	public T peekMin(){
 		return min.getKey();
 	}
 	
+	@Override
 	public T extractMin(){
 		//Extract min
 		BinomialTree<T> minBinT = nodes.get(min.getValue());
@@ -110,6 +113,12 @@ public class FibonacciHeap<T extends Comparable<T>> {
 		}
 		
 		// Nodes consolidated!
+	}
+	
+	@Override
+	public void decreaseKey() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public void print(){
