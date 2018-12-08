@@ -80,14 +80,14 @@ public class MainExperiment {
 		int[] graphEdges = {10,100};// , 100}; //, 1000};
 
 		long init, end;
-		int rep = 1;
+		int rep = 4;
 
 		int[] timeNaive = new int[rep * graphEdges.length];
 		int[] timeHeap = new int[rep * graphEdges.length];
 		int[] timeFib = new int[rep * graphEdges.length];
 
 		for (int j = 0; j < rep; j++) {
-			System.out.println("========== Repetition: " + j + 1 + " ==========");
+			System.out.println("========== Repetition: " + (j + 1) + " ==========");
 			for (int i = 0; i < graphEdges.length; i++) {
 				System.out.println("Building graph with " + graphEdges[i] * vertices + " edges");
 				graph = makeGraph(vertices, vertices * graphEdges[i]);
@@ -98,7 +98,7 @@ public class MainExperiment {
 					expNaive.runTest();
 					end = System.currentTimeMillis();
 					System.out.println("Ran in " + (end - init));
-					timeNaive[graphEdges.length * i + j] = (int) (end - init);
+					timeNaive[rep * i + j] = (int) (end - init);
 				}
 				{
 					DijkstraWithHeap<MyPair<Integer, Double>> expHeap = new DijkstraWithHeap<>();
@@ -106,7 +106,7 @@ public class MainExperiment {
 					expHeap.runTestHeap(graph, 0, new ClassicHeap<MyPair<Integer, Double>>());
 					end = System.currentTimeMillis();
 					System.out.println("Ran in " + (end - init));
-					timeHeap[graphEdges.length * i + j] = (int) (end - init);
+					timeHeap[rep * i + j] = (int) (end - init);
 				}
 				{
 					DijkstraWithHeap<MyPair<Integer, Double>> expHeap = new DijkstraWithHeap<>();
@@ -114,7 +114,7 @@ public class MainExperiment {
 					expHeap.runTestFib(graph, 0, new FibonacciHeap<MyPair<Integer, Double>>());
 					end = System.currentTimeMillis();
 					System.out.println("Ran in " + (end - init));
-					timeFib[graphEdges.length * i + j] = (int) (end - init);
+					timeFib[rep * i + j] = (int) (end - init);
 				}
 			}
 		}
