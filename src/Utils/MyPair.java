@@ -1,6 +1,6 @@
 package Utils;
 
-public class MyPair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>{
+public class MyPair<T1 extends Comparable<T1>, T2 extends Comparable<T2>> implements Comparable<MyPair<T1,T2>>{
 
 	private T1 first;
 	private T2 second;
@@ -11,6 +11,7 @@ public class MyPair<T1 extends Comparable<T1>, T2 extends Comparable<T2>>{
 		this.second = second;
 	}
 	
+	@Override
 	public int compareTo(MyPair<T1,T2> o) {
 		return second.compareTo(o.getSecond());
 	}

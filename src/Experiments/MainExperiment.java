@@ -1,5 +1,8 @@
 package Experiments;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -8,6 +11,8 @@ import java.util.Set;
 
 import Experiments.DijkstraNaive;
 import Experiments.DijkstraWithHeap;
+import MyHeap.ClassicHeap;
+import MyHeap.FibonacciHeap;
 import Utils.MyPair;
 
 public class MainExperiment {
@@ -77,12 +82,76 @@ public class MainExperiment {
 		
 		HashMap<Integer, Double>[] graph;
 		int vertices = 100000;
-		int[] graphEdges = {10, 100}; //, 1000};
+		int[] graphEdges = {10,100};//, 100}; //, 1000};
 		
-		for (int i = 0; i < graphEdges.length; i++) {
-			System.out.println("Building graph with "+graphEdges[i]+" edges");
-			graph = makeGraph(vertices, vertices*graphEdges[i]);
+		long init, end;
+		int rep = 10;
+		
+		int[] timeNaive = new int[rep * graphEdges.length];
+		int[] timeHeap = new int[rep * graphEdges.length];
+		int[] timeFib = new int[rep * graphEdges.length];
+		
+		for(int j = 0; j < rep; j++){
+			System.out.println("========== Repetition: "+j+1+" ==========");
+			for (int i = 0; i < graphEdges.length; i++) {
+				System.out.println("Building graph with "+graphEdges[i]*vertices+" edges");
+				graph = makeGraph(vertices, vertices*graphEdges[i]);
 				
+				{
+					DijkstraNaive expNaive = new DijkstraNaive();
+					init = System.currentTimeMillis();
+					expNaive.runTest();
+					end = System.currentTimeMillis();
+					System.out.println("Ran in "+ (end - init));
+					timeNaive[graphEdges.length * i + j] = (int) (end - init);
+				}
+				{
+					DijkstraWithHeap<MyPair<Integer,Double>> expHeap = new DijkstraWithHeap<>();
+					init = System.currentTimeMillis();
+					expHeap.runTestHeap(graph, 0, new ClassicHeap<MyPair<Integer,Double>>());
+					end = System.currentTimeMillis();
+					System.out.println("Ran in "+ (end - init));
+					timeHeap[graphEdges.length * i + j] = (int) (end - init);
+				}
+				{
+					DijkstraWithHeap<MyPair<Integer,Double>> expHeap = new DijkstraWithHeap<>();
+					init = System.currentTimeMillis();
+					expHeap.runTestFib(graph, 0, new FibonacciHeap<MyPair<Integer,Double>>());
+					end = System.currentTimeMillis();
+					System.out.println("Ran in "+ (end - init));
+					timeFib[graphEdges.length * i + j] = (int) (end - init);
+				}
+			}			
+		}
+		
+		// Write results to csv
+		File f = new File("results.csv");
+		try {
+			FileWriter fw = new FileWriter(f);
+			
+			for(int i = 0; i < timeNaive.length - 1; i++){
+				fw.write(timeNaive[i]+",");	
+			}
+			fw.write(timeNaive[timeNaive.length - 1]+"\n");
+			fw.flush();
+			
+			for(int i = 0; i < timeHeap.length - 1; i++){
+				fw.write(timeHeap[i]+",");	
+			}
+			fw.write(timeHeap[timeHeap.length - 1]+"\n");
+			fw.flush();
+			
+			for(int i = 0; i < timeFib.length - 1; i++){
+				fw.write(timeFib[i]+",");	
+			}
+			fw.write(timeFib[timeFib.length - 1]+"\n");
+			fw.flush();
+			
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error Opennig the file!!");
+			e.printStackTrace();
 		}
 		
 		System.out.println("Finished");

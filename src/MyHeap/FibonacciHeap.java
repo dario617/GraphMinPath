@@ -39,6 +39,10 @@ public class FibonacciHeap<T extends Comparable<T>> implements AHeap<T> {
 		return ptr;
 	}
 
+	public boolean isEmpty(){
+		return nodes.size() == 0;
+	}
+	
 	@Override
 	public T peekMin() {
 		return min.getKey();
@@ -62,19 +66,19 @@ public class FibonacciHeap<T extends Comparable<T>> implements AHeap<T> {
 			// Append Children
 			for (int i = 0; i < minChildren.length; i++) {
 				// Reset parent pointer
-				minChildren[i].setParentRef(null);
-				nodes.add(minChildren[i]);
+				if(minChildren[i] != null){
+					minChildren[i].setParentRef(null);
+					nodes.add(minChildren[i]);
+				}
 			}
 		}
 		// Sort this mess
 		consolidate();
 		// Find next min
-		if (nodes.size() == 0) {
-			return null;
-		} else {
+		if (nodes.size() != 0) {
 			updateMin();
-			return minBinT.getValue();
 		}
+		return minBinT.getValue();
 	}
 
 	/**

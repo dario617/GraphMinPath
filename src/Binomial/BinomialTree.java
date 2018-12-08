@@ -143,14 +143,21 @@ public class BinomialTree<T extends Comparable<T>> {
 	 */
 	private void checkDegree(){
 		int maxDegreeOnChildren = 0;
+		int notNullChildren = children.length;
 		for(int i = 0; i < children.length; i++){
 			if(children[i] != null && children[i].getDegree() > maxDegreeOnChildren){
 				maxDegreeOnChildren = children[i].getDegree();
+			}else if(children[i] == null){
+				notNullChildren--;
 			}
 		}
 		// If the property no longer holds
 		if(maxDegreeOnChildren < degree - 1){
-			degree = maxDegreeOnChildren + 1;
+			if(notNullChildren >= maxDegreeOnChildren + 1){
+				degree = notNullChildren + 1;
+			}else{
+				degree = maxDegreeOnChildren + 1;	
+			}
 			// Shuffle elements
 			this.shuffleChildren();
 		}
@@ -161,7 +168,7 @@ public class BinomialTree<T extends Comparable<T>> {
 	 * If the degree is the same nothing will happen 
 	 */
 	private void shuffleChildren(){
-		if(degree == 0){
+		if(degree == 0 || degree == 1){
 			degree = 1;
 			children = null;
 			return;
