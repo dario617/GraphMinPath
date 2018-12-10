@@ -54,15 +54,17 @@ public class DijkstraWithHeap<T extends Comparable<T>> {
 		double dist[] = new double[graph.length];
 		int prev[] = new int[graph.length];
 
-//		HashMap<Integer, BinomialTree<MyPair<Integer, Double>>> pointers = new HashMap<>();
+		HashMap<Integer, MyPair<Integer, Double>> pointers = new HashMap<>();
 
 		// Set initial values
 		for (int i = 0; i < graph.length; i++) {
 			if (i == origin) {
 //				pointers.put(i, heap.insert(new MyPair<Integer, Double>(i, 0.0)));
+				pointers.put(i, heap.insert(new MyPair<Integer, Double>(i, 0.0)));
 				dist[i] = 0.0;
 			} else {
 //				pointers.put(i, heap.insert(new MyPair<Integer, Double>(i, Double.MAX_VALUE)));
+				pointers.put(i, heap.insert(new MyPair<Integer, Double>(i, Double.MAX_VALUE)));
 				dist[i] = Double.MAX_VALUE;
 			}
 			prev[i] = -1;
@@ -84,9 +86,11 @@ public class DijkstraWithHeap<T extends Comparable<T>> {
 				if (newDist < dist[v]) {
 					dist[v] = newDist;
 					prev[v] = minIndex;
-//					heap.decreaseKey(pointers.get(v), new MyPair<Integer, Double>(v, newDist));
+					heap.decreaseKey(pointers.get(v), new MyPair<Integer, Double>(v, newDist));
 				}
 			}
+			
+			heap.heapify();
 		}
 
 	}

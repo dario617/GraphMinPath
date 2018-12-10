@@ -45,9 +45,8 @@ public class ClassicHeap<T extends Comparable<T>> implements AHeap<T> {
 			int leftChild = this.leftChild(index);
 			int rightChild = this.rightChild(index);
 			
-//			TODO: REVISAR SI ESTAN BIEN LAS COMPARACIONES (Y SI FUNCIONAN)
-			if(nodes.get(index).compareTo(nodes.get(leftChild)) > 1  || nodes.get(index).compareTo(nodes.get(rightChild)) > 1) {
-				if(nodes.get(leftChild).compareTo(nodes.get(rightChild)) < 1) {
+			if(nodes.get(index).compareTo(nodes.get(leftChild)) > 0  || nodes.get(index).compareTo(nodes.get(rightChild)) > 0) {
+				if(nodes.get(leftChild).compareTo(nodes.get(rightChild)) < 0) {
 					this.swap(index, leftChild);
 					this.heapify(leftChild);
 				}else {
@@ -57,6 +56,12 @@ public class ClassicHeap<T extends Comparable<T>> implements AHeap<T> {
 			}
 		}
 	}
+	
+	public void heapify() {
+        for (int index = (this.size() / 2); index >= 1; index--) {
+            heapify(index);
+        }
+    }
 
 	private void swap(int index, int index2) {
 		T aNode = nodes.get(index);
@@ -79,14 +84,17 @@ public class ClassicHeap<T extends Comparable<T>> implements AHeap<T> {
 		return false;
 	}
 
-	public void insert(T node) {
+	public T insert(T node) {
 		int newIndex = this.size() + 1;
 		nodes.add(newIndex, node);
-		int parentIndex = this.parent(newIndex);
-		while(nodes.get(newIndex).compareTo(nodes.get(parentIndex)) < 1) {
-			this.swap(newIndex, parentIndex);
-			newIndex = parentIndex;
+		if(newIndex > 1) {
+			int parentIndex = this.parent(newIndex);
+			while(nodes.get(newIndex).compareTo(nodes.get(parentIndex)) < 1) {
+				this.swap(newIndex, parentIndex);
+				newIndex = parentIndex;
+			}			
 		}
+		return node;
 	}
 
 	private int parent(int index) {
@@ -101,8 +109,7 @@ public class ClassicHeap<T extends Comparable<T>> implements AHeap<T> {
 		return nodes.size() - 1;
 	}
 
-	public void decreaseKey(BinomialTree<MyPair<Integer, Double>> binomialTree, MyPair<Integer, Double> myPair) {
-		// TODO Auto-generated method stub
-		
+	public void decreaseKey(MyPair<Integer, Double> node, MyPair<Integer, Double> myPair) {
+		node.setSecond(myPair.getSecond());		
 	}
 }
