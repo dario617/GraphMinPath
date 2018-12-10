@@ -103,7 +103,7 @@ public class MainExperiment {
 				{
 					DijkstraWithHeap<MyPair<Integer, Double>> expHeap = new DijkstraWithHeap<>();
 					init = System.currentTimeMillis();
-					expHeap.runTestHeap(graph, 0, new ClassicHeap<MyPair<Integer, Double>>());
+					expHeap.runTestHeap(graph, 0, new ClassicHeap<MyPair<Integer, Double>>(graph.length));
 					end = System.currentTimeMillis();
 					System.out.println("Ran in " + (end - init));
 					timeHeap[rep * i + j] = (int) (end - init);
