@@ -77,10 +77,10 @@ public class MainExperiment {
 
 		HashMap<Integer, Double>[] graph;
 		int vertices = 100000;
-		int[] graphEdges = {10,100};// , 100}; //, 1000};
+		int[] graphEdges = {10, 100};// , 100}; //, 1000};
 
 		long init, end;
-		int rep = 15;
+		int rep = 6;
 
 		int[] timeNaive = new int[rep * graphEdges.length];
 		int[] timeHeap = new int[rep * graphEdges.length];
@@ -103,7 +103,7 @@ public class MainExperiment {
 				{
 					DijkstraWithHeap<MyPair<Integer, Double>> expHeap = new DijkstraWithHeap<>();
 					init = System.currentTimeMillis();
-					expHeap.runTestHeap(graph, 0, new ClassicHeap<MyPair<Integer, Double>>(graph.length));
+					//expHeap.runTestHeap(graph, 0, new ClassicHeap<MyPair<Integer, Double>>(graph.length));
 					end = System.currentTimeMillis();
 					System.out.println("Ran with Heap in " + (end - init));
 					timeHeap[rep * i + j] = (int) (end - init);
